@@ -1,23 +1,64 @@
-function changeTeacher(type) {
-  const img = document.getElementById("teacherImage");
-  const title = document.getElementById("teacherTitle");
-  const desc = document.getElementById("teacherDesc");
+let score = {1:0, 2:0, 3:0};
+let q = 1;
 
-  if (type === 1) {
-    img.src = "images/teacher1.png";
-    title.textContent = "Professional Teacher";
-    desc.textContent = "Responsible, calm, and highly reliable.";
-  }
+function answer(type) {
+  score[type]++;
+  q++;
 
-  if (type === 2) {
-    img.src = "images/teacher2.png";
-    title.textContent = "Modern Educator";
-    desc.textContent = "Adaptive, creative, and student-focused.";
-  }
+  const box = document.getElementById("questionBox");
 
-  if (type === 3) {
-    img.src = "images/teacher3.png";
-    title.textContent = "Strategic Mentor";
-    desc.textContent = "Analytical, visionary, and results-driven.";
+  if (q === 2) {
+    box.innerHTML = `
+      <p>2. What matters most in a classroom?</p>
+      <button onclick="answer(1)">Discipline and responsibility</button>
+      <button onclick="answer(2)">Comfort and engagement</button>
+      <button onclick="answer(3)">Purpose and direction</button>
+    `;
   }
+  else if (q === 3) {
+    box.innerHTML = `
+      <p>3. How do you prepare students for the future?</p>
+      <button onclick="answer(1)">By building strong foundations</button>
+      <button onclick="answer(2)">By encouraging self-expression</button>
+      <button onclick="answer(3)">By training strategic thinking</button>
+    `;
+  }
+  else {
+    showResult();
+  }
+}
+
+function showResult() {
+  document.getElementById("quiz").style.display = "none";
+  document.getElementById("result").style.display = "block";
+
+  let type = Object.keys(score).reduce((a,b)=> score[a] > score[b] ? a : b);
+
+  if (type == 1) {
+    setResult(
+      "images/teacher1.png",
+      "The Responsible Homeroom Teacher",
+      "You guide students with clarity, structure, and reliability."
+    );
+  }
+  if (type == 2) {
+    setResult(
+      "images/teacher2.png",
+      "The Supportive Homeroom Teacher",
+      "You create a safe and engaging environment for every student."
+    );
+  }
+  if (type == 3) {
+    setResult(
+      "images/teacher3.png",
+      "The Visionary Homeroom Teacher",
+      "You prepare students for the future with purpose and strategy."
+    );
+  }
+}
+
+function setResult(img, title, desc) {
+  document.getElementById("resultImg").src = img;
+  document.getElementById("resultTitle").innerText = title;
+  document.getElementById("resultDesc").innerText = desc;
 }
